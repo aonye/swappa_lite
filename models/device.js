@@ -1,16 +1,24 @@
-var mongoose = require('mongoose');
+let mongoose = require('mongoose');
 
-var Schema = mongoose.Schema;
+let Schema = mongoose.Schema;
 
-var DeviceSchema = new Schema(
+let DeviceSchema = new Schema(
     {
-        name: { type: String, required: true },
+        name: { type: String, unique: true, required: true },
         description: { type: String, required: true },
-        brand: { type: Schema.Types.ObjectId, ref: 'Brand', required: true },
-        condition: { type: Schema.Types.ObjectId, ref: 'Condition', required: true },
-        carriers: { type: Schema.Types.ObjectId, ref: 'Carriers', required: true },
+        number_in_stock: { type: Number, min: 1, required: true },
+        category: { type: Schema.Types.ObjectId, ref: 'Category', required: true }, //phone, tablet, laptop, custom, REQUIRED
+        price: { type: Schema.Types.Decimal128, required: true },
+        number_in_stock: { type: String, required: true },
+        brand: [{ type: Schema.Types.ObjectId, ref: 'Brand' }], //not required
+        condition: { type: String, required: true, enum: ['New', 'Good', 'Fair', 'Mint'], default: 'Fair' },
     }
 );
+
+let Device = mongoose.model('Device', DeviceSchema);
+var device = new Device({ price: "123123312" });
+console.log(device.price, 'safsdfs');
+
 
 // Virtual for book's URL
 DeviceSchema
@@ -20,4 +28,4 @@ DeviceSchema
     });
 
 //Export model
-module.exports = mongoose.model('Device', DeviceSchema);
+//module.exports = mongoose.model('Device', DeviceSchema);
