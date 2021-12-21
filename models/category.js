@@ -4,17 +4,14 @@ var Schema = mongoose.Schema;
 
 var CategorySchema = new Schema(
     {
-        name: { type: String, required: true },
-        description: { type: String, required: true },
+        name: { type: String, required: true, maxlength: 30 },
     }
 );
 
-// Virtual for book's URL
 CategorySchema
     .virtual('url')
     .get(function () {
-        return '/Category/' + this._id;
+        return '/category/' + this._id;
     });
 
-//Export model
 module.exports = mongoose.model('Category', CategorySchema);

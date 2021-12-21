@@ -9,12 +9,10 @@ var BrandSchema = new Schema(
     }
 );
 
-// Virtual for book's URL
 BrandSchema
     .virtual('url')
     .get(function () {
-        return '/Device/' + this._id;
+        return '/brand/' + this._id;
     });
 
-//Export model
 module.exports = mongoose.model('Brand', BrandSchema);
