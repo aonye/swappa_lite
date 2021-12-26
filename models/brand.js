@@ -5,7 +5,6 @@ var Schema = mongoose.Schema;
 var BrandSchema = new Schema(
     {
         name: { type: String, required: true },
-        model: { type: Schema.Types.ObjectId, ref: 'Model', required: true },
     }
 );
 

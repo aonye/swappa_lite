@@ -9,8 +9,9 @@ let DeviceSchema = new Schema(
         number_in_stock: { type: Number, min: 1, required: true },
         category: { type: Schema.Types.ObjectId, ref: 'Category', required: true }, //phone, tablet, laptop, custom, REQUIRED
         price: { type: Schema.Types.Decimal128, required: true },
-        brand: [{ type: Schema.Types.ObjectId, ref: 'Brand' }], //not required
+        model: { type: Schema.Types.ObjectId, ref: 'Model' }, //not required
         condition: { type: String, required: true, enum: ['New', 'Good', 'Fair', 'Mint'], default: 'Fair' },
+        img_link: { type: String, required: true },
     }
 );
 

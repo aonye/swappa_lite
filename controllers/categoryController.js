@@ -2,7 +2,11 @@ let Category = require('../models/category');
 
 // Display list of all categorys.
 exports.category_list = function (req, res) {
-    res.send('NOT IMPLEMENTED: category list');
+    Category.find()
+        .exec(function (err, category_list) {
+            if (err) { return next(err); }
+            res.render('categories', { title: 'Category List', category_list });
+        });
 };
 
 // Display detail page for a specific category.

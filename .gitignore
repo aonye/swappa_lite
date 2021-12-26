@@ -3,3 +3,5 @@ node_modules
 .ENV
 
 app.js
+
+populatedb.js

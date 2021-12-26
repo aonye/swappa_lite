@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1 Name: #{name}
+
+  p #[strong Model:] #{device.model.name}
+    p #[strong Manufacturer Brand:] #{device.model.brand.name}
+    a(href='') #{device.model}
+  p #[strong Description:] #{device.description}
+  p #[strong Number in Stock:] #{device.number_in_stock}
+  p #[strong Category:] #{device.category}
+  p #[strong Price:] #{device.price}
+  p #[strong Product Image:] #{device.img_link}
+    img(src=`${device.img_link}`)

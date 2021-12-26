@@ -1,0 +1,13 @@
+extends layout
+ 
+block content
+  h1= title
+
+  ul(class='device-list')
+    each device in device_list
+      li
+        a(href=`/device/${device.id}`) #{device.name}
+          img(class='devices' src=`${device.img_link}`)
+
+    else
+      li There are no devices.

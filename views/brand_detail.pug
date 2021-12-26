@@ -1,0 +1,17 @@
+extends layout
+
+block content
+
+  h1 #{title}: #{brand.name}
+
+  div(style='margin-left:20px;margin-top:20px')
+
+    h2 Available Models
+
+    dl
+      each model in brand_models
+        dt
+          a(href='/') #{model.name}
+
+      else
+        p No models found for this brand
