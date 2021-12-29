@@ -31,6 +31,14 @@ block content
       select#model.form-control(type='select', placeholder='Select model' name='model' required='true' )
         for model in models
             option(value=model._id selected=(model._id.toString()===model._id.toString() ? 'selected' : false) ) #{model.name} - #{model.brand.name}
+    
+    div.form-group
+      label(for='condition') Condition:
+      select#condition.form-control(type='select', placeholder='Select condition' name='condition' required='true' )
+        option(value='Mint') Mint
+        option(value='Good') Good
+        option(value='Fair') Fair 
+        option(value='New') New
 
     div.form-group
       label(for='img_link') Image Link:

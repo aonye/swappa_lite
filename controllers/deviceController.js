@@ -55,15 +55,68 @@ exports.device_create_get = function (req, res, next) {
         },
     }, function (err, results) {
         if (err) { return next(err); }
-        console.log(results);
         res.render('device_form', { title: 'Create Device', categories: results.categories, models: results.models });
     });
 };
 
 // Handle device create on POST.
-exports.device_create_post = function (req, res) {
-    res.send('NOT IMPLEMENTED: device create POST');
-};
+exports.device_create_post = [
+    // Validate and sanitise fields.
+    body('name', 'Name must not be empty.').trim().isLength({ min: 1 }).escape(),
+    body('description', 'Description must not be empty.').trim().isLength({ min: 1 }).escape(),
+    body('number in stock', 'Number in stock must be greater than 0').trim().isLength({ min: 1 }).escape(),
+    body('category', 'Category must not be empty').trim().isLength({ min: 1 }).escape(),
+    body('price', 'Price must be greater than 0').trim().isLength({ min: 1 }).escape(),
+    body('model', 'Model must not be empty').trim().isLength({ min: 1 }).escape(),
+    body('condition', 'Condition must not be empty').trim().isLength({ min: 1 }).escape(),
+    body('img_link', 'Image link must not be empty').trim().isLength({ min: 1 }).escape(),
+
+    // Process request after validation and sanitization.
+    (req, res, next) => {
+
+        // Extract the validation errors from a request.
+        const errors = validationResult(req);
+
+        let device = new Device(
+            {
+                name: req.body.name,
+                desciption: req.body.description,
+                number_in_stock: req.body.number_in_stock,
+                category: req.body.category,
+                price: req.body.price,
+                model: req.body.model,
+                condition: req.body.condition,
+                img_link: req.body.img_link,
+            });
+
+        if (!errors.isEmpty()) {
+            // There are errors. Render form again with sanitized values/error messages.
+            console.log('errordetected', device)
+
+            async.parallel({
+                categories: function (callback) {
+                    Category.find(callback);
+                },
+                models: function (callback) {
+                    Model.find(callback).populate('brand');
+                },
+            }, function (err, results) {
+                if (err) { return next(err); }
+                res.render('device_form', { title: 'Create Device', categories: results.categories, models: results.models, errors: errors.array() });
+            });
+            return;
+        }
+        else {
+            // Data from form is valid. Save.
+            device.save(function (err) {
+                if (err) { return next(err); }
+                console.log('success')
+                res.redirect(device.url);
+            });
+        }
+    }
+];
+
 
 // Display device delete form on GET.
 exports.device_delete_get = function (req, res) {
