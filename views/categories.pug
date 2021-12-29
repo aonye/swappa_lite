@@ -7,6 +7,8 @@ block content
     ul(class='category-list')
       each category in category_list
         li
-          a(href=`/category/${category.name}`) #{category.name}
+          a(href=`/category/${category._id}`) #{category.name}
       else
         li There are no categories.
+
+    a(href='category/create') Create new category

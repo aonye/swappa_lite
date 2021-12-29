@@ -1,0 +1,44 @@
+extends layout
+
+block content
+  h1= title
+
+  form(method='POST' action='')
+    div.form-group
+      label(for='name') Name:
+      input#name.form-control(type='text', placeholder='Name of device' name='name' value=(undefined===device ? '' : device.name) )
+
+    div.form-group
+      label(for='description') Description:
+      textarea#description.form-control(type='textarea', placeholder='Description' name='description') #{undefined===device ? '' : device.description}
+    
+    div.form-group
+      label(for='number_in_stock') Number in stock:
+      input#number_in_stock.form-control(type='number', placeholder='Number in stock' name='number_in_stock' value=(undefined===device ? '' : device.number_in_stock))
+
+    div.form-group
+      label(for='price') Price:
+      input#price.form-control(type='number', placeholder='Price' name='price' value=(undefined===device ? '' : device.price))
+
+    div.form-group
+      label(for='category') Category:
+      select#category.form-control(type='select', placeholder='Select category' name='category' required='true' )
+        for category in categories
+            option(value=category._id selected=(category._id.toString()===category._id.toString() ? 'selected' : false) ) #{category.name}
+
+    div.form-group
+      label(for='model') Model:
+      select#model.form-control(type='select', placeholder='Select model' name='model' required='true' )
+        for model in models
+            option(value=model._id selected=(model._id.toString()===model._id.toString() ? 'selected' : false) ) #{model.name} - #{model.brand.name}
+
+    div.form-group
+      label(for='img_link') Image Link:
+      input#img_link.form-control(type='text', placeholder='Image Link' name='img_link' value=(undefined===device ? '' : device.price))
+
+    button.btn.btn-primary(type='submit') Submit
+
+  if errors
+    ul
+      for error in errors
+        li!= error.msg

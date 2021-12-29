@@ -1,4 +1,7 @@
+const { body, validationResult } = require('express-validator');
 let Device = require('../models/device');
+let Category = require('../models/category');
+let Model = require('../models/model');
 let async = require('async');
 
 exports.index = function (req, res) {
@@ -39,39 +42,22 @@ exports.device_detail = function (req, res, next) {
         // Successful, so render.
         res.render('device_detail', { name: results.device.name, device: results.device });
     });
-
-    // exports.book_detail = function (req, res, next) {
-
-    //     async.parallel({
-    //         book: function (callback) {
-
-    //             Book.findById(req.params.id)
-    //                 .populate('author')
-    //                 .populate('genre')
-    //                 .exec(callback);
-    //         },
-    //         book_instance: function (callback) {
-
-    //             BookInstance.find({ 'book': req.params.id })
-    //                 .exec(callback);
-    //         },
-    //     }, function (err, results) {
-    //         if (err) { return next(err); }
-    //         if (results.book == null) { // No results.
-    //             var err = new Error('Book not found');
-    //             err.status = 404;
-    //             return next(err);
-    //         }
-    //         // Successful, so render.
-    //         res.render('book_detail', { title: results.book.title, book: results.book, book_instances: results.book_instance });
-    //     });
-
-    // };
 };
 
 // Display device create form on GET.
-exports.device_create_get = function (req, res) {
-    res.send('NOT IMPLEMENTED: device create GET');
+exports.device_create_get = function (req, res, next) {
+    async.parallel({
+        categories: function (callback) {
+            Category.find(callback);
+        },
+        models: function (callback) {
+            Model.find(callback).populate('brand');
+        },
+    }, function (err, results) {
+        if (err) { return next(err); }
+        console.log(results);
+        res.render('device_form', { title: 'Create Device', categories: results.categories, models: results.models });
+    });
 };
 
 // Handle device create on POST.
