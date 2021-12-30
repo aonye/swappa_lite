@@ -89,13 +89,60 @@ exports.brand_create_post = [
 
 
 // Display brand delete form on GET.
-exports.brand_delete_get = function (req, res) {
-    res.send('NOT IMPLEMENTED: brand delete GET');
+exports.brand_delete_get = function (req, res, next) {
+    //If there are any models that use brand, do not allow deletion
+    async.parallel({
+        brand: function (callback) {
+            Brand.findById(req.params.id)
+                .exec(callback)
+        },
+        brand_models: function (callback) {
+            Model.find({ 'brand': req.params.id })
+                .exec(callback)
+        },
+    }, function (err, results) {
+        console.log(results, 'results');
+        if (err) { return next(err); }
+        if (!results.brand) { // No results.
+            res.redirect('/brands');
+        }
+        res.render('brand_delete');
+        //res.send('NOT IMPLEMENTED: brand delete POST');
+
+        // Successful, so render.
+
+    });
 };
 
 // Handle brand delete on POST.
-exports.brand_delete_post = function (req, res) {
+exports.brand_delete_post = function (req, res, next) {
     res.send('NOT IMPLEMENTED: brand delete POST');
+    async.parallel({
+        brand: function (callback) {
+            Brand.findById(req.body.authorid)
+                .exec(callback)
+        },
+        brand_models: function (callback) {
+            Model.find({ 'brand': req.body.authorid })
+                .exec(callback)
+        },
+    }, function (err, results) {
+        if (err) { return next(err); }
+        // Success
+        if (results.brand_models.length > 0) {
+            // Author has books. Render in same way as for GET route.
+            res.render('author_delete', { title: 'Delete Author', author: results.author, author_books: results.authors_books });
+            return;
+        }
+        else {
+            // Author has no books. Delete object and redirect to the list of authors.
+            Author.findByIdAndRemove(req.body.authorid, function deleteAuthor(err) {
+                if (err) { return next(err); }
+                // Success - go to author list
+                res.redirect('/catalog/authors')
+            })
+        }
+    });
 };
 
 // Display brand update form on GET.

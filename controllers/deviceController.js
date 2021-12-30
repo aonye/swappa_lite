@@ -4,6 +4,13 @@ let Category = require('../models/category');
 let Model = require('../models/model');
 let async = require('async');
 
+const conditions = [
+    'Fair',
+    'New',
+    'Good',
+    'Mint',
+]
+
 exports.index = function (req, res) {
     res.render('index');
 };
@@ -55,7 +62,7 @@ exports.device_create_get = function (req, res, next) {
         },
     }, function (err, results) {
         if (err) { return next(err); }
-        res.render('device_form', { title: 'Create Device', categories: results.categories, models: results.models });
+        res.render('device_form', { title: 'Create Device', conditions, categories: results.categories, models: results.models });
     });
 };
 
@@ -64,7 +71,7 @@ exports.device_create_post = [
     // Validate and sanitise fields.
     body('name', 'Name must not be empty.').trim().isLength({ min: 1 }).escape(),
     body('description', 'Description must not be empty.').trim().isLength({ min: 1 }).escape(),
-    body('number in stock', 'Number in stock must be greater than 0').trim().isLength({ min: 1 }).escape(),
+    body('number_in_stock', 'Number in stock must be greater than 0').trim().isNumeric().escape(),
     body('category', 'Category must not be empty').trim().isLength({ min: 1 }).escape(),
     body('price', 'Price must be greater than 0').trim().isLength({ min: 1 }).escape(),
     body('model', 'Model must not be empty').trim().isLength({ min: 1 }).escape(),
@@ -80,7 +87,7 @@ exports.device_create_post = [
         let device = new Device(
             {
                 name: req.body.name,
-                desciption: req.body.description,
+                description: req.body.description,
                 number_in_stock: req.body.number_in_stock,
                 category: req.body.category,
                 price: req.body.price,
@@ -102,7 +109,7 @@ exports.device_create_post = [
                 },
             }, function (err, results) {
                 if (err) { return next(err); }
-                res.render('device_form', { title: 'Create Device', categories: results.categories, models: results.models, errors: errors.array() });
+                res.render('device_form', { title: 'Create Device', device, conditions, categories: results.categories, models: results.models, errors: errors.array() });
             });
             return;
         }
