@@ -11,7 +11,7 @@ block content
     dl
       each model in brand_models
         dt
-          a(href='/') #{model.name}
+          a(href=`/model/${model.id}`) #{model.name}
 
       else
         p No models found for this brand

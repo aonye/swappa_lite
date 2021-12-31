@@ -12,3 +12,9 @@ block content
   p #[strong Price:] #{device.price}
   p #[strong Product Image:] #{device.img_link}
     img(src=`${device.img_link}`)
+  
+  hr
+  p
+    a(href=device.url+'/delete') Delete device
+  p
+    a(href=device.url+'/update') Update device

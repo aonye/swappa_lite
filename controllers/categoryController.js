@@ -14,17 +14,26 @@ exports.category_list = function (req, res) {
 
 // Display detail page for a specific category.
 exports.category_detail = function (req, res, next) {
-    Device.find({ 'category': req.params.id })
-        .populate('category')
-        .exec((err, category_detail) => {
-            if (err) { return next(err); }
-            if (category_detail.length === 0) { // No results.
-                let err = new Error('Category not found');
-                err.status = 404;
-                return next(err);
-            }
-            res.render('category_detail', { title: `List of ${category_detail[0]['category']['name']}s`, category_detail });
-        });
+    async.parallel({
+        category: function (callback) {
+            Category.findById(req.params.id)
+                .exec(callback);
+        },
+        device_category: function (callback) {
+            Device.find({ 'category': req.params.id })
+                .populate('category')
+                .exec(callback);
+        }
+    }, function (err, results) {
+        console.log(results);
+        if (err) { return next(err); }
+        if (!results) { // Does not exist
+            var err = new Error('Category not found');
+            err.status = 404;
+            return next(err);
+        }
+        res.render('category_detail', { title: results.category.name, category: results.category, devices: results.device_category });
+    });
 };
 
 // Display category create form on GET.
@@ -78,13 +87,49 @@ exports.category_create_post = [
 ];
 
 // Display category delete form on GET.
-exports.category_delete_get = function (req, res) {
-    res.send('NOT IMPLEMENTED: category delete GET');
+exports.category_delete_get = function (req, res, next) { //If there are any devices that use any of the categories, do not allow deletion
+    async.parallel({
+        category: function (callback) {
+            Category.findById(req.params.id)
+                .exec(callback)
+        },
+        category_devices: function (callback) {
+            Device.find({ 'category': req.params.id })
+                .exec(callback)
+        },
+    }, function (err, results) {
+        if (err) { return next(err); }
+        if (!results.category) { // No results.
+            res.redirect('/devices');
+        }
+        res.render('category_delete', { title: 'Delete Category', category: results.category, category_devices: results.category_devices });
+    });
 };
 
 // Handle category delete on POST.
-exports.category_delete_post = function (req, res) {
-    res.send('NOT IMPLEMENTED: category delete POST');
+exports.category_delete_post = function (req, res, next) {
+    async.parallel({
+        category: function (callback) {
+            Category.findById(req.body.categoryid)
+                .exec(callback)
+        },
+        category_devices: function (callback) {
+            Device.find({ 'category': req.body.categoryid })
+                .exec(callback)
+        },
+    }, function (err, results) {
+        if (err) { return next(err); }
+        if (results.category_devices.length > 0) { //Device(s) persist
+            res.render('category_delete', { title: 'Delete Category', category: results.category, category_devices: results.category_devices });
+            return;
+        }
+        else {// Okay to delete. Redirect after
+            Category.findByIdAndRemove(req.body.categoryid, (err) => {
+                if (err) { return next(err); }
+                res.redirect('/categories');
+            })
+        }
+    });
 };
 
 // Display category update form on GET.

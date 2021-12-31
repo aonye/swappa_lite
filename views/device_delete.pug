@@ -1,0 +1,24 @@
+extends layout
+
+block content
+
+  h1= title
+  
+  p #[strong Do you really want to delete this Device?]
+  
+  div(style="margin-left:20px")
+
+    p #[strong ID]: #{device}
+  
+    p #[strong Title:] 
+      a(href='') #{device}
+    
+    p #[strong Imprint:] #{device}
+
+    p #[strong Status:] 
+
+  form(method='POST' action='')
+    div.form-group
+      input#deviceid.form-control(type='hidden',name='deviceid', required='true', value=device._id )
+
+    button.btn.btn-primary(type='submit') Delete

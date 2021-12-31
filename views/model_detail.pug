@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1 Model: #{model.name}
+
+
+  div(style='margin-left:20px;margin-top:20px')
+
+    h2 Brand:
+      a(href=`/brand/${model.brand.id}`) #{model.brand.name}
+
+  hr
+  p
+    a(href=model.url+'/delete') Delete this model

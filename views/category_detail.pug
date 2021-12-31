@@ -1,13 +1,17 @@
 extends layout
 
 block content
-  h1=title
+  h1 List of #{title}s
 
   ul(class='device-list')
-    each category in category_detail
+    each device in devices
       li
-        a(href=``) #{category.name}
-          img(class='devices' src=`${category.img_link}`)
+        a(href=`${device.url}`) #{device.name}
+          img(class='devices' src=`${device.img_link}`)
 
     else
       li There are no devices.
+
+  hr
+  p
+    a(href=`${category.url}/delete`) Delete category

@@ -1,5 +1,26 @@
 extends layout
 
 block content
-  h1 Hello World
-  p Hello World
+  h1 #{title}: #{brand.name}
+
+  if brand_models.length
+
+    p #[strong ERROR: Delete these models before attempting to remove this brand.]
+
+    div(style='margin-left:20px;margin-top:20px')
+
+      h4 Models:
+
+      dl
+      each model in brand_models
+        dt
+          a(href=`${model.url}`) #{model.name}
+
+  else
+    p Do you really want to delete this brand?
+
+    form(method='POST' action='')
+      div.form-group
+        input#brandid.form-control(type='hidden',name='brandid', required='true', value=brand._id )
+
+      button.btn.btn-primary(type='submit') Delete
