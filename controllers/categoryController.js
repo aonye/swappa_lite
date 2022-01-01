@@ -3,7 +3,6 @@ let Device = require('../models/device');
 let Category = require('../models/category');
 let async = require('async');
 
-// Display list of all categorys.
 exports.category_list = function (req, res) {
     Category.find()
         .exec(function (err, category_list) {
@@ -12,7 +11,6 @@ exports.category_list = function (req, res) {
         });
 };
 
-// Display detail page for a specific category.
 exports.category_detail = function (req, res, next) {
     async.parallel({
         category: function (callback) {
@@ -25,7 +23,6 @@ exports.category_detail = function (req, res, next) {
                 .exec(callback);
         }
     }, function (err, results) {
-        console.log(results);
         if (err) { return next(err); }
         if (!results) { // Does not exist
             var err = new Error('Category not found');
@@ -36,23 +33,17 @@ exports.category_detail = function (req, res, next) {
     });
 };
 
-// Display category create form on GET.
 exports.category_create_get = function (req, res) {
     res.render('category_form', { title: 'Create Category' });
 };
 
-// Handle category create on POST.
 exports.category_create_post = [
-    // Validate and santize the name field.
     body('name', 'Category name required').trim().isLength({ min: 1 }).escape(),
 
-    // Process request after validation and sanitization.
     (req, res, next) => {
 
-        // Extract the validation errors from a request.
         const errors = validationResult(req);
 
-        // Create a category object with escaped and trimmed data.
         var category = new Category(
             { name: req.body.name }
         );
@@ -86,7 +77,6 @@ exports.category_create_post = [
     }
 ];
 
-// Display category delete form on GET.
 exports.category_delete_get = function (req, res, next) { //If there are any devices that use any of the categories, do not allow deletion
     async.parallel({
         category: function (callback) {
@@ -106,7 +96,6 @@ exports.category_delete_get = function (req, res, next) { //If there are any dev
     });
 };
 
-// Handle category delete on POST.
 exports.category_delete_post = function (req, res, next) {
     async.parallel({
         category: function (callback) {
@@ -132,12 +121,45 @@ exports.category_delete_post = function (req, res, next) {
     });
 };
 
-// Display category update form on GET.
-exports.category_update_get = function (req, res) {
-    res.send('NOT IMPLEMENTED: category update GET');
+exports.category_update_get = async function (req, res) {
+    const category = await Category.findById(req.params.id).orFail(() => Error('Category not found'));
+    res.render('category_form', { title: 'Update Category', category });
 };
 
-// Handle category update on POST.
-exports.category_update_post = function (req, res) {
-    res.send('NOT IMPLEMENTED: category update POST');
-};
+exports.category_update_post = [
+
+    body('name', 'Category name required').trim().isLength({ min: 1 }).escape(),
+
+    async (req, res, next) => {
+
+        const errors = validationResult(req);
+
+        var category = new Category(
+            {
+                name: req.body.name,
+                _id: req.params.id,
+            }
+        );
+
+        if (!errors.isEmpty()) { // There are errors. Render the form again with sanitized values/error messages.
+            res.render('category_form', { title: 'Create Category', category, errors: errors.array() });
+            return;
+        }
+        else {
+            // Data from form is valid. Check if same name already exists.
+            Category.findOne({ 'name': req.body.name })
+                .exec(function (err, found) {
+                    if (err) { return next(err); }
+                    if (found) {
+                        res.redirect(found.url);
+                    }
+                    else {
+                        Category.findByIdAndUpdate(req.params.id, category, {}, (err, result) => { // (id, obj to update w/, options (obj - empty), callback)
+                            if (err) { return next(err); }
+                            res.redirect(result.url);
+                        });
+                    }
+                });
+        }
+    }
+];

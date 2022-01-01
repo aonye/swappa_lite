@@ -8,7 +8,6 @@ exports.brand_list = function (req, res) {
     Brand.find()
         .exec(function (err, brand_list) {
             if (err) { return next(err); }
-            console.log(brand_list)
             res.render('brands', { title: 'Brand List', brand_list });
         });
 };
@@ -26,7 +25,6 @@ exports.brand_detail = function (req, res, next) {
         },
 
     }, function (err, results) {
-        console.log(results);
         if (err) { return next(err); }
         if (results.brand === undefined) { // Model does not exist.
             var err = new Error('Model not found');
@@ -100,7 +98,6 @@ exports.brand_delete_get = function (req, res, next) { //If there are any models
                 .exec(callback)
         },
     }, function (err, results) {
-        console.log(results, 'results');
         if (err) { return next(err); }
         if (!results.brand) { // No results.
             res.redirect('/brands');
@@ -136,11 +133,46 @@ exports.brand_delete_post = function (req, res, next) {
 };
 
 // Display brand update form on GET.
-exports.brand_update_get = function (req, res) {
-    res.send('NOT IMPLEMENTED: brand update GET');
+exports.brand_update_get = async function (req, res) {
+    const brand = await Brand.findById(req.params.id).orFail(() => Error('Brand not found'));
+    res.render('brand_form', { title: 'Update Brand', brand });
 };
 
 // Handle brand update on POST.
-exports.brand_update_post = function (req, res) {
-    res.send('NOT IMPLEMENTED: brand update POST');
-};
+exports.brand_update_post = [
+
+    body('name', 'Brand name required').trim().isLength({ min: 1 }).escape(),
+
+    async (req, res, next) => {
+
+        const errors = validationResult(req);
+
+        var brand = new Brand(
+            {
+                name: req.body.name,
+                _id: req.params.id,
+            }
+        );
+
+        if (!errors.isEmpty()) { // There are errors. Render the form again with sanitized values/error messages.
+            res.render('brand_form', { title: 'Create Brand', brand, errors: errors.array() });
+            return;
+        }
+        else {
+            // Data from form is valid. 
+            Brand.findOne({ 'name': req.body.name })
+                .exec(function (err, found) {
+                    if (err) { return next(err); }
+                    if (found) { //Check if same name already exists.
+                        res.redirect(found.url);
+                    }
+                    else {
+                        Brand.findByIdAndUpdate(req.params.id, brand, {}, (err, result) => { // (id, obj to update w/, options (obj - empty), callback)
+                            if (err) { return next(err); }
+                            res.redirect(result.url);
+                        });
+                    }
+                });
+        }
+    }
+];

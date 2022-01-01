@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  h1 #{title}, Id: #{model.name}
+
+  if model_devices.length
+
+    p #[strong ERROR: Must remove these devices before attempting to remove this model.]
+
+    div(style='margin-left:20px;margin-top:20px')
+
+      h4 Devices:
+
+      dl
+      each device in model_devices
+        dt
+          a(href=`${device.url}`) #{device.name}
+
+  else
+    p Do you really want to delete this model?
+
+    form(method='POST' action='')
+      div.form-group
+        input#modelid.form-control(type='hidden',name='modelid', required='true', value=model._id )
+
+      button.btn.btn-primary(type='submit') Delete
