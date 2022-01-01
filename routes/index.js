@@ -9,8 +9,6 @@ var model_controller = require('../controllers/modelController');
 
 /* GET home page. */
 router.get('/', device_controller.index);
-// // GET catalog home page.
-// router.get('/', book_controller.index);
 
 // GET request for creating a device. NOTE This must come before routes that display device (uses id).
 router.get('/device/create', device_controller.device_create_get);
@@ -59,8 +57,8 @@ router.post('/model/:id/update', model_controller.model_update_post);
 // GET request for one model.
 router.get('/model/:id', model_controller.model_detail);
 
-// GET request for list of all models.
-router.get('/models', model_controller.model_list);
+// GET request for list of all models. - Will not install
+//router.get('/models', model_controller.model_list);
 
 // /// category ROUTES ///
 
