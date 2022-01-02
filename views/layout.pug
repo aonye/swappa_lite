@@ -7,19 +7,27 @@ html(lang='en')
     link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css", integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z", crossorigin="anonymous")
     script(src="https://code.jquery.com/jquery-3.5.1.slim.min.js", integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj", crossorigin="anonymous")
     script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js", integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV", crossorigin="anonymous")
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  nav(class='nav') 
-    a(class='logo' href='/')
-      img(src="/assets/images/swappa.png")
-    a(class='cart' href='https://github.com/aonye')
-      img(src='/assets/images/GitHub-Mark-64px.png')
-  head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
-    link(rel='stylesheet', href='/stylesheets/index.css')
-    link(rel='stylesheet', href='/stylesheets/devices.css')
+    link(rel='stylesheet', href='/stylesheets/layout.css')
+    script.
+      function addSpin(e) {
+        e.target.classList.remove('backSpin');
+        e.target.classList.add('spin');
+      }
+      function removeSpin(e) {
+        e.target.classList.remove('spin');
+        e.target.classList.add('backSpin');
+      }
+  
+  nav(class='nav')
+    section(class='nav-wrapper') 
+      a(href='/')
+        img(class='logo' src="/assets/images/swappa.png")
+      a(href='https://github.com/aonye')
+        img(onmouseover="addSpin(event)" onmouseout="removeSpin(event)" class='github' src='/assets/images/GitHub-Mark-64px.png')
+  
+  footer
+    span Created by Andy Ye, All Rights Reserved
+  
   body
-    block content
-    
-    div(class='footer-wrapper')
-      footer(class='footer') Hello world
+    section.master-wrapper
+      block content

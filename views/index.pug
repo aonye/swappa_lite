@@ -1,18 +1,13 @@
 extends layout
 
 block content
-  section(class='main-section')
-  div(class='m')
-    div(class='device-list')
-      div(class='section-link')
-        a(href='/devices') 
-          img(src='https://static.swappa.com/static/images/categories/retro/category_iphones_600x600.png')
-        span Devices
-      div(class='section-link')
-        a(class='section-link' href='/categories')
-          img(src='https://www.svgrepo.com/show/33529/phone-tablet-and-laptop.svg')
-        span Categories
-      div(class='section-link')
-        a(class='section-link' href='/brands')
-          img(src='https://miro.medium.com/max/2000/1*ambW6_d_zweYvV5DdyblxA.png')
-        span Brands
+  div(class='device-list')
+    a(href='/devices' class='index-link')
+      img(src='https://static.swappa.com/static/images/categories/retro/category_iphones_600x600.png')
+      span Devices
+    a(href='/categories' class='index-link')
+      img(src='https://www.svgrepo.com/show/33529/phone-tablet-and-laptop.svg')
+      span Categories
+    a(href='/brands' class='index-link')
+      img(src='https://miro.medium.com/max/2000/1*ambW6_d_zweYvV5DdyblxA.png')
+      span Brands

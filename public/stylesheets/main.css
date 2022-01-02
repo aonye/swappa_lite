@@ -1,0 +1,26 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: seashell;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.master-wrapper {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  top: 10%;
+}

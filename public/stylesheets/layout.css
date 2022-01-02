@@ -1,0 +1,84 @@
+@import url('../stylesheets/devices.css');
+@import url('../stylesheets/index.css');
+@import url('../stylesheets/main.css');
+
+.nav {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 80px;
+    background-color: #008339;
+    border-bottom: 3px solid black;
+}
+
+.nav-wrapper {
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.github {
+    height: 50px;
+    width: 50px;
+}
+
+.logo {
+  display: flex;
+  width: 240px;
+}
+
+.spin {
+    /* rotates CW */
+    -webkit-animation:spin 0.3s linear;
+    -moz-animation:spin 0.3s linear;
+    animation:spin 0.3s linear;
+    transform-origin: center;
+}
+    @-moz-keyframes spin { 
+        100% { -moz-transform: rotate(360deg); } 
+    }
+    @-webkit-keyframes spin { 
+        100% { -webkit-transform: rotate(360deg); } 
+    }
+    @keyframes spin { 
+        100% { 
+            -webkit-transform: rotate(360deg); 
+            transform:rotate(360deg); } 
+    }
+
+.backSpin { 
+    /* rotates CCW*/
+    -webkit-animation: backspin 0.3s linear;
+    -moz-animation: backspin 0.3s linear;
+    animation: backspin 0.3s linear;
+    transform-origin: center;
+}
+    @-moz-keyframes backspin { 
+        100% { -moz-transform: rotate(-360deg); } 
+    }
+    @-webkit-keyframes backspin { 
+        100% { -webkit-transform: rotate(-360deg); } 
+    }
+    @keyframes backspin { 
+        100% { 
+            -webkit-transform: rotate(-360deg); 
+            transform:rotate(-360deg); } 
+    }
+
+footer {
+    background-color: #008339;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    font-size: 12px;
+    line-height: 20px;
+    height: 20px;
+    width: 100%;
+    overflow: hidden;
+    text-align: center;
+}
+
+footer a {
+    color: black;
+}
