@@ -1,19 +1,24 @@
+/* device list */
+
 .device-wrapper {
     display: flex;
-    flex-flow: column wrap;
+    flex-direction: column;
     align-items: center;
     width: 100%;
 }
 
-.device-create{
+.device-detail {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-bottom: 2rem;
 }
 
-.device-create:hover{
-    text-decoration: none;
+.device-list {
+    display: flex;
+    justify-content: flex-start;
+    flex-flow: row wrap;
+    width: 90%;
 }
 
 .device {
@@ -34,4 +39,10 @@
 .device img {
     width: 150px;
     height: 150px;
+}
+
+/* device detail page */
+
+.device-info {
+    
 }

@@ -45,7 +45,7 @@ exports.device_detail = function (req, res, next) {
             return next(err);
         }
         // Successful, so render.
-        res.render('device_detail', { name: results.device.name, device: results.device });
+        res.render('device_detail', { title: results.device.name, device: results.device });
     });
 };
 
@@ -66,7 +66,14 @@ exports.device_create_get = function (req, res, next) {
 
 // Handle device create on POST.
 exports.device_create_post = [
-    body('name', 'Name must not be empty.').trim().isLength({ min: 1 }).escape(),
+    body('name', 'Name must not be empty.').trim().isLength({ min: 1 }).escape()
+        .custom((name) => {
+            return Device.findOne({ 'name': name }).then((productName) => {
+                if (productName) {
+                    return Promise.reject('Product name must be unique');
+                }
+            });
+        }),
     body('description', 'Description must not be empty.').trim().isLength({ min: 1 }).escape(),
     body('number_in_stock', 'Number in stock must be greater than 0').trim().isNumeric().escape(),
     body('category', 'Category must not be empty').trim().isLength({ min: 1 }).escape(),
@@ -116,6 +123,13 @@ exports.device_create_post = [
 
 exports.device_delete_get = function (req, res, next) {
     Device.findById(req.params.id)
+        .populate('category')
+        .populate({
+            path: 'model',
+            populate: {
+                path: 'brand',
+            }
+        })
         .exec((err, device) => {
             if (err) { return next(err); }
             if (!device) {
@@ -167,7 +181,14 @@ exports.device_update_get = function (req, res, next) {
 };
 
 exports.device_update_post = [
-    body('name', 'Name must not be empty.').trim().isLength({ min: 1 }).escape(),
+    body('name', 'Name must not be empty.').trim().isLength({ min: 1 }).escape()
+        .custom((name) => {
+            return Device.findOne({ 'name': name }).then((productName) => {
+                if (productName) {
+                    return Promise.reject('Product name must be unique');
+                }
+            });
+        }),
     body('description', 'Description must not be empty.').trim().isLength({ min: 1 }).escape(),
     body('number_in_stock', 'Number in stock must be greater than 0').trim().isNumeric().escape(),
     body('category', 'Category must not be empty').trim().isLength({ min: 1 }).escape(),

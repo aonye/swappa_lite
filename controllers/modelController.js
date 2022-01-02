@@ -22,7 +22,6 @@ exports.model_detail = function (req, res, next) {
                 err.status = 404;
                 return next(err);
             }
-            console.log(model);
             res.render('model_detail', { model });
         });
 };
@@ -91,7 +90,6 @@ exports.model_delete_get = function (req, res, next) { //Disallow deletion if an
                 .exec(callback);
         },
     }, function (err, results) {
-        console.log(results, 'results');
         if (err) { return next(err); }
         if (!results.model) { // No results.
             res.redirect('/brands'); //brands dependency of model, design decision to not show all models

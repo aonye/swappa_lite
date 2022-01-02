@@ -1,20 +1,27 @@
 extends layout
 
 block content
-  h1 Name: #{name}
+  section.section-wrapper
 
-  p #[strong Model:] #{device.model.name}
-    p #[strong Manufacturer Brand:] #{device.model.brand.name}
-    a(href='') #{device.model}
-  p #[strong Description:] #{device.description}
-  p #[strong Number in Stock:] #{device.number_in_stock}
-  p #[strong Category:] #{device.category}
-  p #[strong Price:] #{device.price}
-  p #[strong Product Image:] #{device.img_link}
-    img(src=`${device.img_link}`)
-  
-  hr
-  p
-    a(href=device.url+'/delete') Delete device
-  p
-    a(href=device.url+'/update') Update device
+    div.device-detail
+      div(style='margin-bottom:20px')
+        a(href=`${device.url}/delete`)
+          button.color-change-button Delete Device
+        a(href=`${device.url}/update`)
+          button.color-change-button Update Device
+      h1 Name: #{title}
+    
+    img(src=`${device.img_link}` width='250' height='250' style='margin-bottom:40px')
+
+    div.device-detail.left-align
+      p #[strong Product URL:] #{device.img_link}
+      p #[strong Description:] #{device.description}      
+      p #[strong Model - Manufacture Brand:] 
+        a(href=`/model/${device.model._id}`) #{device.model.name}
+        |  - 
+        a(href=`/brand/${device.model.brand._id}`) #{device.model.brand.name}
+      p #[strong Number in Stock:] #{device.number_in_stock}
+      p #[strong Category:] 
+        a(href=`/category/${device.category._id}`) #{device.category.name}
+      p #[strong Price:] #{device.price.toString()}
+      p #[strong Condition:] #{device.condition}

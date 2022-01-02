@@ -1,24 +1,24 @@
 extends layout
 
 block content
+  section.section-wrapper
+    h1= title
+    p #[strong Do you really want to delete this device? All stock will be removed]
+    div.device-detail.left-align
+      p #[strong Name]: #{device.name}
+      p #[strong Description:] #{device.description}      
+      p #[strong Model - Manufacture Brand:] 
+        a(href=`/model/${device.model._id}`) #{device.model.name}
+        |  - 
+        a(href=`/brand/${device.model.brand._id}`) #{device.model.brand.name}
+      p #[strong Category:] 
+        a(href=`/category/${device.category._id}`) #{device.category.name}
+      p #[strong Price:] #{device.price.toString()}
+      p #[strong Condition:] #{device.condition}
+      p #[strong Number in Stock:] #{device.number_in_stock}
 
-  h1= title
-  
-  p #[strong Do you really want to delete this Device?]
-  
-  div(style="margin-left:20px")
+    form.centered(method='POST' action='')
+      div.form-group
+        input#deviceid.form-control(type='hidden',name='deviceid', required='true', value=device._id )
 
-    p #[strong ID]: #{device}
-  
-    p #[strong Title:] 
-      a(href='') #{device}
-    
-    p #[strong Imprint:] #{device}
-
-    p #[strong Status:] 
-
-  form(method='POST' action='')
-    div.form-group
-      input#deviceid.form-control(type='hidden',name='deviceid', required='true', value=device._id )
-
-    button.btn.btn-primary(type='submit') Delete
+      button.btn.btn-primary(type='submit') Delete

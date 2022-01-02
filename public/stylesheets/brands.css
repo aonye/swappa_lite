@@ -1,11 +1,11 @@
 /* brands -- list page */
 
-.brands-wrapper {
+/* .brands-wrapper {
     display: flex;
     flex-flow: column wrap;
     align-items: center;
     width: 100%;
-}
+} */
 
 .brand-create {
     display: flex;

@@ -65,3 +65,17 @@ form {
   justify-content: center;
   margin-top: 1rem;
 }
+
+.section-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.left-align {
+  display: flex !important;
+  flex-flow: column wrap !important;
+  align-items: flex-start !important;
+}
