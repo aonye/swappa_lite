@@ -1,14 +1,18 @@
 extends layout
 
 block content
+  section.category-wrapper
 
-    h1=title
+    div.category-create
+      h1= title
+      a(href='category/create')
+        button.color-change-button Create New Category
 
-    ul(class='category-list')
-      each category in category_list
-        li
-          a(href=`/category/${category._id}`) #{category.name}
-      else
-        li There are no categories.
-
-    a(href='category/create') Create new category
+    section.category-list
+      ul
+        each category in category_list
+          li
+            a(href=`/category/${category._id}`)
+              span #{category.name}
+        else
+          li There are no categories.

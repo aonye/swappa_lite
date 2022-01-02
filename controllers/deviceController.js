@@ -20,7 +20,7 @@ exports.device_list = function (req, res) {
         .sort({ name: 1 })
         .exec(function (err, device_list) {
             if (err) { return next(err); }
-            res.render('devices', { name: 'Devices', device_list: device_list });
+            res.render('devices', { title: 'All Devices', device_list: device_list });
         });
 };
 

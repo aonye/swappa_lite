@@ -1,15 +1,17 @@
 extends layout
  
 block content
-  h1= title
+  section.device-wrapper
 
-  ul(class='device-list')
-    each device in device_list
-      li
-        a(href=`/device/${device.id}`) #{device.name}
-          img(class='devices' src=`${device.img_link}`)
+    div.device-create
+      h1= title
+      a(href='device/create')
+        button.color-change-button Create New Device
 
-    else
-      li There are no devices.
-  
-  a(href='device/create') Create new device
+    section.device-list
+      each device in device_list
+          a(href=`/device/${device._id}` class='device')
+            img(class='device-img' src=`${device.img_link}`)
+            span #{device.name}
+      else
+        span There are no devices.

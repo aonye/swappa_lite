@@ -1,0 +1,17 @@
+/* model list */
+
+.model-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+/* model details */
+
+.model-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

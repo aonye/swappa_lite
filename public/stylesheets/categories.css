@@ -1,0 +1,28 @@
+/* category list */
+
+.category-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.category-create{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.category-list ul {
+    font-size: 20px;
+}
+
+/* Category details */
+
+.category-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

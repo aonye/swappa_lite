@@ -1,7 +1,37 @@
-.devices {
-    width: 200px;
+.device-wrapper {
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    width: 100%;
 }
 
-.device-list {
-    list-style: none;
+.device-create{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.device-create:hover{
+    text-decoration: none;
+}
+
+.device {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 200px;
+    height: 200px;
+}
+
+.device:hover{
+    transform: scale(1.2);
+    transition-duration: 0.5s;
+}
+
+.device img {
+    width: 150px;
+    height: 150px;
 }

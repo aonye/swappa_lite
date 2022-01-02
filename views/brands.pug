@@ -1,14 +1,18 @@
 extends layout
 
 block content
+  section.brands-wrapper
 
-    h1=title
+    div.brand-create
+      h1= title
+      a(href='brand/create')
+        button.color-change-button Create New Brand
 
-    ul(class='brands-list')
-      each brand in brand_list
-        li
-          a(href=`/brand/${brand._id}`) #{brand.name}
-      else
-        li There are no brands.
-    
-    a(href='brand/create') Create new brand
+    section.brand-list
+      ul
+        each brand in brand_list
+          li
+            a(href=`/brand/${brand._id}`)
+              span #{brand.name}
+        else
+          li There are no brands.

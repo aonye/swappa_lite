@@ -2,24 +2,25 @@ extends layout
 
 block content
 
-  h1 #{title}: #{brand.name}
+  section.brands-wrapper
 
-  div(style='margin-left:20px;margin-top:20px')
+    div.brand-detail(style='margin-left:20px;margin-top:20px')
+      h1 #{title}: #{brand.name}
+      div
+        a(href=`${brand.url}/delete`)
+          button.color-change-button Delete brand
+        a(href=`${brand.url}/update`)
+          button.color-change-button Update brand
 
-    h2 Available Models
+    section.brand-list
+      h2 Available Models
 
-    dl
-      each model in brand_models
-        dt
-          a(href=`/model/${model.id}`) #{model.name}
+      dl
+        each model in brand_models
+          dt
+            a(href=`/model/${model.id}`) #{model.name}
+        else
+          p No models found for this brand
 
-      else
-        p No models found for this brand
-
-    a(href=`/model/create`) Create model
-
-  hr
-  p
-    a(href=brand.url+'/delete') Delete brand
-  p
-    a(href=brand.url+'/update') Update brand
+      a(href=`/model/create`)
+        button.color-change-button Create model

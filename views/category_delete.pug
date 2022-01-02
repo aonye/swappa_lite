@@ -1,26 +1,28 @@
 extends layout
 
 block content
-  h1 #{title}: #{category.name}
+  section.category-wrapper
 
-  if category_devices.length
+    h1 #{title}: #{category.name}
 
-    p #[strong ERROR: Delete these devices before attempting to remove this category.]
+    if category_devices.length
 
-    div(style='margin-left:20px;margin-top:20px')
+      p #[strong ERROR: Delete these devices before attempting to remove this category.]
 
-      h4 Devices:
+      div(style='margin-left:20px;margin-top:20px')
 
-      dl
-      each device in category_devices
-        dt
-          a(href=`${device.url}`) #{device.name}
+        h4 Devices:
 
-  else
-    p Do you really want to delete this category?
+        dl
+        each device in category_devices
+          dt
+            a(href=`${device.url}`) #{device.name}
 
-    form(method='POST' action='')
-      div.form-group
-        input#categoryid.form-control(type='hidden',name='categoryid', required='true', value=category._id )
+    else
+      p Do you really want to delete this category?
 
-      button.btn.btn-primary(type='submit') Delete
+      form.centered(method='POST' action='')
+        div.form-group
+          input#categoryid.form-control(type='hidden',name='categoryid', required='true', value=category._id )
+
+        button.btn.btn-primary(type='submit') Delete

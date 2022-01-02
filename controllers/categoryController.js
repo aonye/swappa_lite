@@ -29,7 +29,7 @@ exports.category_detail = function (req, res, next) {
             err.status = 404;
             return next(err);
         }
-        res.render('category_detail', { title: results.category.name, category: results.category, devices: results.device_category });
+        res.render('category_detail', { title: results.category.name, category: results.category, device_list: results.device_category });
     });
 };
 

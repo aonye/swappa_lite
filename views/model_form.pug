@@ -1,26 +1,27 @@
 extends layout
 
 block content
-  h1 #{title}
+  section.model-wrapper
+    h1 #{title}
 
-  form(method='POST' action='')
-    div.form-group
-      label(for='name') Model name:
-      input#name.form-control(type='text', placeholder='ex. A20XX' name='name' value=(undefined===model? '' : model.name))
+    form(method='POST' action='')
+      div.form-group
+        label(for='name') Model name:
+        input#name.form-control(type='text', placeholder='ex. A20XX' name='name' value=(undefined===model? '' : model.name))
 
-    div.form-group
-      label(for='brand') Brand:
-      select.form-control(type='select', placeholder='Select brand' name='brand' required='true')
-        if brands
-          for brand in brands
-            option(value=brand._id selected=(brand._id.toString()===brand._id.toString() ? 'selected' : false)) #{brand.name}
-        else
-          for brand in brands
-            option(value=brand._id) #{brand.name}
+      div.form-group
+        label(for='brand') Brand:
+        select.form-control(type='select', placeholder='Select brand' name='brand' required='true')
+          if brands
+            for brand in brands
+              option(value=brand._id selected=(brand._id.toString()===brand._id.toString() ? 'selected' : false)) #{brand.name}
+          else
+            for brand in brands
+              option(value=brand._id) #{brand.name}
 
-    button.btn.btn-primary(type='submit') Submit
+      button.btn.btn-primary(type='submit') Submit
 
-  if errors
-   ul
-    for error in errors
-     li!= error.msg
+    if errors
+      ul
+        for error in errors
+          li!= error.msg

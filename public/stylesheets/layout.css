@@ -1,6 +1,9 @@
-@import url('../stylesheets/devices.css');
 @import url('../stylesheets/index.css');
 @import url('../stylesheets/main.css');
+@import url('../stylesheets/devices.css');
+@import url('../stylesheets/categories.css');
+@import url('../stylesheets/brands.css');
+@import url('../stylesheets/models.css');
 
 .nav {
     display: flex;
